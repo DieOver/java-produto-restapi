@@ -3,14 +3,19 @@ package com.example.apirest.models;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 public class ProdutoDTO {
 
     private Long id;
 
+    @NotNull
     private String nome;
 
+    @NotNull
     private BigDecimal quantidade;
 
+    @NotNull
     private BigDecimal valor;
 
     public ProdutoDTO() {

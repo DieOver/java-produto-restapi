@@ -90,7 +90,7 @@ public class ProdutoResource {
             produtoRepository.delete(produtoEntity);
             return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BadRequest e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class ProdutoResource {
             produtoRepository.save(produtoEntity);
             return new ResponseEntity<>("Atualizado com sucesso.", HttpStatus.OK);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BadRequest e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
         } catch (Exception e) {
