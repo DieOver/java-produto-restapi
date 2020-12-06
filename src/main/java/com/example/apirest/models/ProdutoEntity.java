@@ -11,22 +11,28 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "TB_PRODUTO")
 public class ProdutoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "Código do produto")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @ApiModelProperty(value = "Nome do produto")
     @NotNull
     private String nome;
 
+    @ApiModelProperty(value = "Quantidade do produto")
     @NotNull
     private BigDecimal quantidade;
 
+    @ApiModelProperty(value = "Valor do produto")
     @NotNull
     private BigDecimal valor;
 

@@ -25,11 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
 import javassist.NotFoundException;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api")
+@Api(value = "API Rest")
 public class ProdutoResource {
 
     @Autowired
@@ -38,7 +43,12 @@ public class ProdutoResource {
     private static final String INTERNAL_ERROR_MESSAGE = "Algum erro ocorreu.";
     private static final String NOT_FOUND_MESSAGE = "Não encontrado.";
     private static final String BAD_REQUEST_MESSAGE = "Dados inválidos.";
-
+    
+    @ApiOperation(value = "Retorna uma lista de Produtos")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retorna uma lista de produtos"),
+        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
     @GetMapping("/produtos")
     public ResponseEntity<List<ProdutoDTO>> listaProdutos() {
         try {
@@ -50,6 +60,12 @@ public class ProdutoResource {
         }
     }
 
+    @ApiOperation(value = "Retorna um Produto")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retorna um produto"),
+        @ApiResponse(code = 404, message = "Produto não encontrado"),
+        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
     @GetMapping("/produto/{id}")
     public ResponseEntity<ProdutoDTO> getProduto(@PathVariable("id") long id) {
         try {
@@ -66,6 +82,11 @@ public class ProdutoResource {
         }
     }
 
+    @ApiOperation(value = "Adiciona um Produto")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Adiciona um Produto"),
+        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
     @PostMapping("/produto")
     public ResponseEntity<String> addProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
@@ -79,25 +100,12 @@ public class ProdutoResource {
         }
     }
 
-    @DeleteMapping("/produto")
-    public ResponseEntity<String> deleteProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
-        try {
-            Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
-            if (!checkProdutoEntity.isPresent()) {
-                throw new NotFoundException(NOT_FOUND_MESSAGE);
-            }
-            ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
-            produtoRepository.delete(produtoEntity);
-            return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
-        } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
-        }
-    }
-
+    @ApiOperation(value = "Atualiza um Produto")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Atualiza um produto"),
+        @ApiResponse(code = 404, message = "Produto não encontrado"),
+        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
     @PutMapping("/produto")
     public ResponseEntity<String> updateProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
@@ -108,6 +116,31 @@ public class ProdutoResource {
             ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
             produtoRepository.save(produtoEntity);
             return new ResponseEntity<>("Atualizado com sucesso.", HttpStatus.OK);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (BadRequest e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Deleta um Produto")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Deleta um produto"),
+        @ApiResponse(code = 404, message = "Produto não encontrado"),
+        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @DeleteMapping("/produto")
+    public ResponseEntity<String> deleteProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
+        try {
+            Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
+            if (!checkProdutoEntity.isPresent()) {
+                throw new NotFoundException(NOT_FOUND_MESSAGE);
+            }
+            ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
+            produtoRepository.delete(produtoEntity);
+            return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BadRequest e) {
