@@ -2,13 +2,12 @@ package com.example.apirest.resources;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,7 +73,7 @@ public class ProdutoResource {
         @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping("/produto")
-    public ResponseEntity<String> addProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
+    public ResponseEntity<String> addProduto(@RequestBody @Validated ProdutoDTO produtoDTO) {
         try {
             produtoService.store(produtoDTO);
             return ResponseEntity.ok().body("Adicionado com sucesso.");
@@ -92,7 +91,7 @@ public class ProdutoResource {
         @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PutMapping("/produto")
-    public ResponseEntity<String> updateProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
+    public ResponseEntity<String> updateProduto(@RequestBody @Validated ProdutoDTO produtoDTO) {
         try {
             produtoService.update(produtoDTO);
             return ResponseEntity.ok().body("Atualizado com sucesso.");
@@ -112,7 +111,7 @@ public class ProdutoResource {
         @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @DeleteMapping("/produto")
-    public ResponseEntity<String> deleteProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
+    public ResponseEntity<String> deleteProduto(@RequestBody @Validated ProdutoDTO produtoDTO) {
         try {
             produtoService.delete(produtoDTO);
             return ResponseEntity.ok().body("Deletado com sucesso.");

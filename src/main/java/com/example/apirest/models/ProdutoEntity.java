@@ -20,20 +20,17 @@ public class ProdutoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "Código do produto")
-    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private long id;
 
     @ApiModelProperty(value = "Nome do produto")
-    @NotNull
     private String nome;
 
     @ApiModelProperty(value = "Quantidade do produto")
-    @NotNull
     private BigDecimal quantidade;
 
     @ApiModelProperty(value = "Valor do produto")
-    @NotNull
     private BigDecimal valor;
 
     public ProdutoEntity() {
