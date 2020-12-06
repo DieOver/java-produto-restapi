@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.apirest.models.ProdutoDTO;
-import com.example.apirest.models.ProdutoEntity;
 import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;

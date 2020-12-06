@@ -27,14 +27,17 @@ public class ProdutoEntity implements Serializable {
 
     @ApiModelProperty(value = "Nome do produto")
     @NotBlank(message = "Nome é necessário")
+    @NotNull
     private String nome;
 
     @ApiModelProperty(value = "Quantidade do produto")
     @NotBlank(message = "Quantidade é necessário")
+    @NotNull
     private BigDecimal quantidade;
 
     @ApiModelProperty(value = "Valor do produto")
     @NotBlank(message = "Valor é necessário")
+    @NotNull
     private BigDecimal valor;
 
     public ProdutoEntity() {
