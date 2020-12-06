@@ -17,8 +17,6 @@ import javassist.NotFoundException;
 @Service
 public class ProdutoSeriveImpl implements ProdutoService {
 
-    private static final String NOT_FOUND_MESSAGE = "Não encontrado.";
-
     @Autowired
     ProdutoRepository produtoRepository;
 
@@ -32,7 +30,7 @@ public class ProdutoSeriveImpl implements ProdutoService {
     public ProdutoDTO find(Long id) throws NotFoundException {
         Optional<ProdutoEntity> produtoEntity = produtoRepository.findById(id);
         if (!produtoEntity.isPresent()) {
-            throw new NotFoundException(NOT_FOUND_MESSAGE);
+            throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         return ProdutoConfig.toDTO(produtoEntity.get());
     }
@@ -47,7 +45,7 @@ public class ProdutoSeriveImpl implements ProdutoService {
     public void update(ProdutoDTO produtoDTO) throws NotFoundException {
         Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
         if (!checkProdutoEntity.isPresent()) {
-            throw new NotFoundException(NOT_FOUND_MESSAGE);
+            throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
         produtoRepository.save(produtoEntity);
@@ -57,7 +55,7 @@ public class ProdutoSeriveImpl implements ProdutoService {
     public void delete(ProdutoDTO produtoDTO) throws NotFoundException {
         Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
         if (!checkProdutoEntity.isPresent()) {
-            throw new NotFoundException(NOT_FOUND_MESSAGE);
+            throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
         produtoRepository.delete(produtoEntity);

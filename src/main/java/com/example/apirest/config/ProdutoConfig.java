@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Bean;
 
 public class ProdutoConfig {
 
+    public static final String NOT_FOUND_MESSAGE = "Não encontrado.";
+    public static final String INTERNAL_ERROR_MESSAGE = "Algum erro ocorreu.";
+    public static final String BAD_REQUEST_MESSAGE = "Dados inválidos.";
+
     private ProdutoConfig() {}
 
     @Bean

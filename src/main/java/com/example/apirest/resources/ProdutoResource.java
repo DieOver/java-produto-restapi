@@ -1,14 +1,11 @@
 package com.example.apirest.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.example.apirest.config.ProdutoConfig;
 import com.example.apirest.models.ProdutoDTO;
-import com.example.apirest.models.ProdutoEntity;
-import com.example.apirest.repository.ProdutoRepository;
 import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +36,7 @@ import javassist.NotFoundException;
 public class ProdutoResource {
 
     @Autowired
-    ProdutoRepository produtoRepository;
-
-    @Autowired
     ProdutoService produtoService;
-
-    private static final String INTERNAL_ERROR_MESSAGE = "Algum erro ocorreu.";
-    private static final String BAD_REQUEST_MESSAGE = "Dados inválidos.";
     
     @ApiOperation(value = "Retorna uma lista de Produtos")
     @ApiResponses(value = {
@@ -58,7 +49,7 @@ public class ProdutoResource {
             List<ProdutoDTO> produtosDTO = produtoService.index();
             return new ResponseEntity<>(produtosDTO, HttpStatus.OK);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
         }
     }
 
@@ -76,7 +67,7 @@ public class ProdutoResource {
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
         }
     }
 
@@ -91,9 +82,9 @@ public class ProdutoResource {
             produtoService.store(produtoDTO);
             return new ResponseEntity<>("Adicionado com sucesso.", HttpStatus.OK);
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
         }
     }
 
@@ -111,9 +102,9 @@ public class ProdutoResource {
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
         }
     }
 
@@ -131,9 +122,9 @@ public class ProdutoResource {
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
         }
     }
 
