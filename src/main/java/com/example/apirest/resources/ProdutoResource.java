@@ -9,6 +9,7 @@ import com.example.apirest.config.ProdutoConfig;
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.models.ProdutoEntity;
 import com.example.apirest.repository.ProdutoRepository;
+import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,8 +41,10 @@ public class ProdutoResource {
     @Autowired
     ProdutoRepository produtoRepository;
 
+    @Autowired
+    ProdutoService produtoService;
+
     private static final String INTERNAL_ERROR_MESSAGE = "Algum erro ocorreu.";
-    private static final String NOT_FOUND_MESSAGE = "Não encontrado.";
     private static final String BAD_REQUEST_MESSAGE = "Dados inválidos.";
     
     @ApiOperation(value = "Retorna uma lista de Produtos")
@@ -52,8 +55,7 @@ public class ProdutoResource {
     @GetMapping("/produtos")
     public ResponseEntity<List<ProdutoDTO>> listaProdutos() {
         try {
-            List<ProdutoEntity> produtosEntity = produtoRepository.findAll();
-            List<ProdutoDTO> produtosDTO = ProdutoConfig.toDTOs(produtosEntity);
+            List<ProdutoDTO> produtosDTO = produtoService.index();
             return new ResponseEntity<>(produtosDTO, HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_ERROR_MESSAGE + e.getMessage());
@@ -69,11 +71,7 @@ public class ProdutoResource {
     @GetMapping("/produto/{id}")
     public ResponseEntity<ProdutoDTO> getProduto(@PathVariable("id") long id) {
         try {
-            Optional<ProdutoEntity> produtoEntity = produtoRepository.findById(id);
-            if (!produtoEntity.isPresent()) {
-                throw new NotFoundException(NOT_FOUND_MESSAGE);
-            }
-            ProdutoDTO produtoDTO = ProdutoConfig.toDTO(produtoEntity.get());
+            ProdutoDTO produtoDTO = produtoService.find(id);
             return new ResponseEntity<>(produtoDTO, HttpStatus.OK);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -90,8 +88,7 @@ public class ProdutoResource {
     @PostMapping("/produto")
     public ResponseEntity<String> addProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
-            ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
-            produtoRepository.save(produtoEntity);
+            produtoService.store(produtoDTO);
             return new ResponseEntity<>("Adicionado com sucesso.", HttpStatus.OK);
         } catch (BadRequest e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_REQUEST_MESSAGE + e.getMessage());
@@ -109,12 +106,7 @@ public class ProdutoResource {
     @PutMapping("/produto")
     public ResponseEntity<String> updateProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
-            Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
-            if (!checkProdutoEntity.isPresent()) {
-                throw new NotFoundException(NOT_FOUND_MESSAGE);
-            }
-            ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
-            produtoRepository.save(produtoEntity);
+            produtoService.update(produtoDTO);
             return new ResponseEntity<>("Atualizado com sucesso.", HttpStatus.OK);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -134,12 +126,7 @@ public class ProdutoResource {
     @DeleteMapping("/produto")
     public ResponseEntity<String> deleteProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
-            Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
-            if (!checkProdutoEntity.isPresent()) {
-                throw new NotFoundException(NOT_FOUND_MESSAGE);
-            }
-            ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
-            produtoRepository.delete(produtoEntity);
+            produtoService.delete(produtoDTO);
             return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
