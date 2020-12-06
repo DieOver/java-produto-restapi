@@ -3,6 +3,7 @@ package com.example.apirest.models;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ProdutoDTO {
@@ -10,12 +11,15 @@ public class ProdutoDTO {
     private Long id;
 
     @NotNull
+    @NotBlank(message = "Nome é necessário")
     private String nome;
 
     @NotNull
+    @NotBlank(message = "Quantidade é necessário")
     private BigDecimal quantidade;
 
     @NotNull
+    @NotBlank(message = "Valor é necessário")
     private BigDecimal valor;
 
     public ProdutoDTO() {

@@ -2,7 +2,10 @@ package com.example.apirest.resources;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.apirest.models.ProdutoDTO;
+import com.example.apirest.models.ProdutoEntity;
 import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +76,7 @@ public class ProdutoResource {
         @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping("/produto")
-    public ResponseEntity<String> addProduto(@RequestBody @Validated ProdutoDTO produtoDTO) {
+    public ResponseEntity<String> addProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
             produtoService.store(produtoDTO);
             return ResponseEntity.ok().body("Adicionado com sucesso.");

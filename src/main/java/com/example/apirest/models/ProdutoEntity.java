@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -25,12 +26,15 @@ public class ProdutoEntity implements Serializable {
     private long id;
 
     @ApiModelProperty(value = "Nome do produto")
+    @NotBlank(message = "Nome é necessário")
     private String nome;
 
     @ApiModelProperty(value = "Quantidade do produto")
+    @NotBlank(message = "Quantidade é necessário")
     private BigDecimal quantidade;
 
     @ApiModelProperty(value = "Valor do produto")
+    @NotBlank(message = "Valor é necessário")
     private BigDecimal valor;
 
     public ProdutoEntity() {
