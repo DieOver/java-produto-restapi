@@ -4,12 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.example.apirest.config.ProdutoConfig;
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +29,7 @@ import javassist.NotFoundException;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api")
-@Api(value = "API Rest")
+@Api(value = "Produtos")
 public class ProdutoResource {
 
     @Autowired
@@ -47,9 +44,9 @@ public class ProdutoResource {
     public ResponseEntity<List<ProdutoDTO>> listaProdutos() {
         try {
             List<ProdutoDTO> produtosDTO = produtoService.index();
-            return new ResponseEntity<>(produtosDTO, HttpStatus.OK);
+            return ResponseEntity.ok().body(produtosDTO);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -63,11 +60,11 @@ public class ProdutoResource {
     public ResponseEntity<ProdutoDTO> getProduto(@PathVariable("id") long id) {
         try {
             ProdutoDTO produtoDTO = produtoService.find(id);
-            return new ResponseEntity<>(produtoDTO, HttpStatus.OK);
+            return ResponseEntity.ok().body(produtoDTO);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -80,11 +77,11 @@ public class ProdutoResource {
     public ResponseEntity<String> addProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
             produtoService.store(produtoDTO);
-            return new ResponseEntity<>("Adicionado com sucesso.", HttpStatus.OK);
+            return ResponseEntity.ok().body("Adicionado com sucesso.");
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -98,13 +95,13 @@ public class ProdutoResource {
     public ResponseEntity<String> updateProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
             produtoService.update(produtoDTO);
-            return new ResponseEntity<>("Atualizado com sucesso.", HttpStatus.OK);
+            return ResponseEntity.ok().body("Atualizado com sucesso.");
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.notFound().build();
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 
@@ -118,13 +115,13 @@ public class ProdutoResource {
     public ResponseEntity<String> deleteProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         try {
             produtoService.delete(produtoDTO);
-            return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
+            return ResponseEntity.ok().body("Deletado com sucesso.");
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.notFound().build();
         } catch (BadRequest e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ProdutoConfig.BAD_REQUEST_MESSAGE + e.getMessage());
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ProdutoConfig.INTERNAL_ERROR_MESSAGE + e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 
