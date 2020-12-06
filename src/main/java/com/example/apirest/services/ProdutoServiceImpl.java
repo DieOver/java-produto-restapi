@@ -1,4 +1,4 @@
-package com.example.apirest.services.impl;
+package com.example.apirest.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,6 @@ import com.example.apirest.config.ProdutoConfig;
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.models.ProdutoEntity;
 import com.example.apirest.repository.ProdutoRepository;
-import com.example.apirest.services.ProdutoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javassist.NotFoundException;
 
 @Service
-public class ProdutoSeriveImpl implements ProdutoService {
+public class ProdutoServiceImpl implements ProdutoService {
 
     @Autowired
     ProdutoRepository produtoRepository;
