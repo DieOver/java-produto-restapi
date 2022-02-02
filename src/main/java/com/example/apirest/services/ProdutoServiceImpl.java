@@ -28,7 +28,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public ProdutoDTO find(Long id) throws NotFoundException {
         Optional<ProdutoEntity> produtoEntity = produtoRepository.findById(id);
-        if (!produtoEntity.isPresent()) {
+        if (produtoEntity.isEmpty()) {
             throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         return ProdutoConfig.toDTO(produtoEntity.get());
@@ -43,7 +43,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void update(ProdutoDTO produtoDTO) throws NotFoundException {
         Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
-        if (!checkProdutoEntity.isPresent()) {
+        if (checkProdutoEntity.isEmpty()) {
             throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
@@ -53,7 +53,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void delete(ProdutoDTO produtoDTO) throws NotFoundException {
         Optional<ProdutoEntity> checkProdutoEntity = produtoRepository.findById(produtoDTO.getId());
-        if (!checkProdutoEntity.isPresent()) {
+        if (checkProdutoEntity.isEmpty()) {
             throw new NotFoundException(ProdutoConfig.NOT_FOUND_MESSAGE);
         }
         ProdutoEntity produtoEntity = ProdutoConfig.toEntity(produtoDTO);
