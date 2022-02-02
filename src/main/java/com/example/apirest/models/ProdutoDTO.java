@@ -2,23 +2,34 @@ package com.example.apirest.models;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Entity
 public class ProdutoDTO {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
     @NotBlank(message = "Nome é necessário")
+    @Column(nullable = false, unique = true)
     private String nome;
 
     @NotNull
     @NotBlank(message = "Quantidade é necessário")
+    @Column(nullable = false)
     private BigDecimal quantidade;
 
     @NotNull
     @NotBlank(message = "Valor é necessário")
+    @Column(nullable = false)
     private BigDecimal valor;
 
     public ProdutoDTO() {

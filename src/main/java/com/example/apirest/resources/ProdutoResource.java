@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,6 +29,9 @@ import javassist.NotFoundException;
 @RequestMapping(value = "/api")
 @Api(value = "Produtos")
 public class ProdutoResource {
+
+    @Value("${spring.application.name}")
+    String appName;
 
     @Autowired
     ProdutoService produtoService;
