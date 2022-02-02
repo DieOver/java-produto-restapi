@@ -2,10 +2,8 @@ package com.example.apirest.config;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
 import com.example.apirest.models.ProdutoDTO;
 import com.example.apirest.models.ProdutoEntity;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.context.annotation.Bean;

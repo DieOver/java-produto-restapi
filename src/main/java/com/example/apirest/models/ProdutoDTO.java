@@ -2,7 +2,6 @@ package com.example.apirest.models;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
